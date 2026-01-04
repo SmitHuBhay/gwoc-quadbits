@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chill Thrive – Test UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f7ff;
+      padding: 40px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 400px;
+      border-radius: 8px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+    }
+    button {
+      background: #0a3d62;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❄️ Chill Thrive – Booking Test</h1>
+
+  <form action="/api/bookings" method="POST">
+    <input name="service" placeholder="Service (Ice Bath)" required />
+    <input name="name" placeholder="Your Name" required />
+    <input name="phone" placeholder="Phone" required />
+    <input name="email" placeholder="Email" required />
+    <input name="date" type="date" required />
+    <input name="timeSlot" type="time" required />
+    <input name="paymentMode" placeholder="Cash / UPI" required />
+    <button type="submit">Book Now</button>
+  </form>
+
+</body>
+</html>
