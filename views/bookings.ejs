@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bookings</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+
+<h1>📋 All Bookings</h1>
+
+<% bookings.forEach(b => { %>
+  <div class="card" style="margin-bottom:15px">
+    <b><%= b.service %></b><br>
+    <%= b.name %> – <%= b.phone %><br>
+    <%= b.date %> @ <%= b.timeSlot %><br>
+    <small><%= b.paymentMode %></small>
+  </div>
+<% }) %>
+
+<a href="/">← Back</a>
+
+</body>
+</html>

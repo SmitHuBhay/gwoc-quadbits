@@ -24,6 +24,29 @@ app.use(
 app.get("/", (req, res) => {
   res.render("index");
 });
+const Booking = require("./models/Booking");
+
+// Home (booking form)
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+// After booking success
+app.get("/success", (req, res) => {
+  res.render("success");
+});
+
+// View bookings (admin UI)
+app.get("/bookings", async (req, res) => {
+  const bookings = await Booking.find().sort({ createdAt: -1 });
+  res.render("bookings", { bookings });
+});
+
+// Admin login UI
+app.get("/admin-ui", (req, res) => {
+  res.render("admin");
+});
+
 
 
 mongoose

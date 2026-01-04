@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 // User booking
 router.post("/", async (req, res) => {
   const booking = await Booking.create(req.body);
-  res.json({ message: "Booking confirmed", booking });
+ res.redirect("/success");
 });
 
 // Admin view bookings
