@@ -1,0 +1,67 @@
+<div class="max-w-2xl mx-auto my-16 px-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-cyan-600">
+        <h2 class="text-3xl font-bold mb-2 text-center text-slate-800">Book Your Session</h2>
+        <p class="text-center text-slate-500 mb-8">Take the step towards better recovery.</p>
+
+        <form action="/book" method="POST" class="space-y-6">
+            <div>
+                <label class="block text-sm font-bold mb-2 text-slate-700">Select Therapy</label>
+                <select name="service" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 outline-none bg-slate-50" required>
+                    <option value="" disabled selected>Choose a service...</option>
+                    <% services.forEach(s => { %>
+                        <option value="<%= s._id %>" <%= selectedService == s._id ? 'selected' : '' %>>
+                            <%= s.title %> - $<%= s.discountPrice || s.price %> 
+                            <%= s.discountPercent > 0 ? '(Sale)' : '' %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-slate-700">Date</label>
+                    <input type="date" name="date" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 bg-slate-50" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-slate-700">Time</label>
+                    <select name="timeSlot" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 bg-slate-50" required>
+                        <option>09:00 AM</option>
+                        <option>10:00 AM</option>
+                        <option>11:00 AM</option>
+                        <option>12:00 PM</option>
+                        <option>02:00 PM</option>
+                        <option>03:00 PM</option>
+                        <option>04:00 PM</option>
+                        <option>05:00 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold mb-2 text-slate-700">Full Name</label>
+                <input type="text" name="customerName" 
+                       value="<%= locals.user ? user.name : '' %>" 
+                       <%= locals.user ? 'readonly' : '' %>
+                       class="w-full p-3 border rounded-lg bg-slate-100 text-slate-600 cursor-not-allowed">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-slate-700">Email</label>
+                    <input type="email" name="email" 
+                           value="<%= locals.user ? user.email : '' %>" 
+                           <%= locals.user ? 'readonly' : '' %>
+                           class="w-full p-3 border rounded-lg bg-slate-100 text-slate-600 cursor-not-allowed">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-slate-700">Phone</label>
+                    <input type="tel" name="phone" placeholder="(555) 000-0000" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-cyan-500 bg-slate-50" required>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-cyan-700 text-white font-bold py-4 rounded-lg hover:bg-cyan-800 transition shadow-lg text-lg">
+                Confirm Booking
+            </button>
+        </form>
+    </div>
+</div>

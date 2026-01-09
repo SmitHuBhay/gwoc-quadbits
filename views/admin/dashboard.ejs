@@ -1,0 +1,192 @@
+<div class="bg-slate-100 min-h-screen pb-20">
+    <div class="bg-white shadow px-6 py-4 flex justify-between items-center sticky top-0 z-40">
+        <h1 class="font-bold text-xl text-slate-800">Admin Dashboard</h1>
+        <div class="space-x-2">
+            <a href="/admin/logout" class="text-red-500 ml-4 font-bold">Logout</a>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-8 px-4 space-y-8">
+        <div class="bg-white rounded shadow p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-800">Services & Pricing</h3>
+                <button onclick="document.getElementById('editpages').classList.remove('hidden')"
+                    class="text-sm bg-slate-800 text-white px-3 py-1 rounded">
+                    + Add New
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+                        <tr>
+                            <th class="p-3 border-b">Service</th>
+                            <th class="p-3 border-b">Price (₹)</th>
+                            <th class="p-3 border-b">Discount (%)</th>
+                            <th class="p-3 border-b">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% services.forEach(s=> { %>
+                            <tr class="hover:bg-slate-50">
+                                <form action="/admin/service/<%= s._id %>?_method=PUT" method="POST">
+                                    <td class="p-3 border-b">
+                                        <input type="text" name="title" value="<%= s.title %>"
+                                            class="border rounded px-2 py-1 w-full font-medium">
+                                    </td>
+                                    <td class="p-3 border-b">
+                                        <input type="number" name="price" value="<%= s.price %>"
+                                            class="w-20 border rounded px-2 py-1">
+                                    </td>
+                                    <td class="p-3 border-b">
+                                        <div class="flex items-center">
+                                            <input type="number" name="discountPercent" value="<%= s.discountPercent %>"
+                                                min="0" max="100"
+                                                class="w-16 border rounded px-2 py-1 bg-yellow-50 text-center font-bold text-yellow-700">
+                                            <span class="ml-1 text-slate-400">%</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-3 border-b flex items-center space-x-2">
+                                        <button class="text-blue-600 font-bold hover:underline text-sm">Save</button>
+                                        <button form="del-<%= s._id %>"
+                                            class="text-red-500 hover:underline text-sm">Del</button>
+                                    </td>
+                                </form>
+                                <form id="del-<%= s._id %>" action="/admin/service/<%= s._id %>?_method=DELETE"
+                                    method="POST" class="hidden"></form>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-white rounded shadow p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-800">Blog Posts</h3>
+                <button onclick="document.getElementById('editpageb').classList.remove('hidden')"
+                    class="text-sm bg-cyan-600 text-white px-3 py-1 rounded">
+                    + Write New
+                </button>
+            </div>
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+                    <tr>
+                        <th class="p-3">Title</th>
+                        <th class="p-3">Date</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(locals.posts) { %>
+                        <% posts.forEach(p=> { %>
+                            <tr class="border-t hover:bg-slate-50">
+                                <td class="p-3 font-medium">
+                                    <%= p.title %>
+                                </td>
+                                <td class="p-3 text-slate-500 text-sm">
+                                    <%= p.createdAt.toLocaleDateString() %>
+                                </td>
+                                <td class="p-3 space-x-2">
+                                    <a href="/admin/content/edit/<%= p._id %>"
+                                        class="text-blue-600 font-bold hover:underline">Edit</a>
+                                    <form action="/admin/content/delete/<%= p._id %>" method="POST" class="inline">
+                                        <button class="text-red-500 hover:underline"
+                                            onclick="return confirm('Delete this post?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="3" class="p-3 text-slate-400">No blogs found (or not loaded).</td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bg-white rounded shadow p-6">
+            <h3 class="font-bold text-lg mb-4 text-slate-800">Recent Bookings</h3>
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 text-slate-500 text-xs uppercase">
+                    <tr>
+                        <th class="p-2">User</th>
+                        <th class="p-2">Service</th>
+                        <th class="p-2">Status</th>
+                        <th class="p-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% bookings.forEach(b=> { %>
+                        <tr class="border-t hover:bg-slate-50">
+                            <td class="p-2">
+                                <div class="font-bold">
+                                    <%= b.customerName %>
+                                </div>
+                                <div class="text-xs text-slate-500">
+                                    <%= b.date.toDateString() %>
+                                </div>
+                            </td>
+                            <td class="p-2">
+                                <%= b.service?.title %>
+                            </td>
+                            <td class="p-2"><span class="bg-gray-100 px-2 py-1 rounded text-xs font-bold">
+                                    <%= b.status %>
+                                </span></td>
+                            <td class="p-2">
+                                <% if(b.status==='Pending' ) { %>
+                                    <form action="/admin/booking/<%= b._id %>?_method=PUT" method="POST" class="inline">
+                                        <input type="hidden" name="status" value="Confirmed">
+                                        <button class="text-green-600 font-bold mr-2">Accept</button>
+                                    </form>
+                                    <form action="/admin/booking/<%= b._id %>?_method=PUT" method="POST" class="inline">
+                                        <input type="hidden" name="status" value="Cancelled">
+                                        <button class="text-red-600 font-bold">Reject</button>
+                                    </form>
+                                    <% } %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="editpages" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded w-96 shadow-2xl">
+        <h3 class="font-bold mb-4">New Service</h3>
+        <form action="/admin/service" method="POST" class="space-y-3">
+            <input name="title" placeholder="Title" class="w-full border p-2 rounded" required>
+            <input name="price" type="number" placeholder="Price" class="w-full border p-2 rounded" required>
+            <input name="imageURL" placeholder="Image URL" class="w-full border p-2 rounded">
+            <select name="category" class="w-full border p-2 rounded">
+                <option>Ice Bath</option>
+                <option>Steam</option>
+                <option>Combo</option>
+            </select>
+            <div class="flex justify-end gap-2 mt-4">
+                <button type="button" onclick="document.getElementById('editpages').classList.add('hidden')"
+                    class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                <button class="px-4 py-2 bg-slate-800 text-white rounded">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="editpageb" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded w-[500px] shadow-2xl">
+        <h3 class="font-bold mb-4">New Blog Post</h3>
+        <form action="/admin/content" method="POST" class="space-y-3">
+            <input name="title" placeholder="Title" class="w-full border p-2 rounded" required>
+            <input name="tags" placeholder="Tags (comma separated)" class="w-full border p-2 rounded">
+            <input name="imageURL" placeholder="Image URL" class="w-full border p-2 rounded">
+            <textarea name="body" rows="5" placeholder="Content" class="w-full border p-2 rounded"></textarea>
+            <div class="flex justify-end gap-2 mt-4">
+                <button type="button" onclick="document.getElementById('editpageb').classList.add('hidden')"
+                    class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                <button class="px-4 py-2 bg-cyan-600 text-white rounded">Publish</button>
+            </div>
+        </form>
+    </div>
+</div>

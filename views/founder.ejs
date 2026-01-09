@@ -1,0 +1,32 @@
+<div class="relative bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+            <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                <div class="sm:text-center lg:text-left">
+                    <h1 class="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
+                        <span class="block xl:inline">It started with</span>
+                        <span class="block text-cyan-600 xl:inline">a single ice bath.</span>
+                    </h1>
+                    <div class="mt-6 prose prose-lg text-slate-500 mx-auto lg:mx-0">
+                        <p><%= locals.site ? site.founderStory : 'Chill Thrive was born from a need for resilience...' %></p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+        <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80">
+    </div>
+</div>
+
+<div class="bg-slate-50 py-16 px-4">
+    <div class="max-w-3xl mx-auto">
+        <blockquote class="bg-white rounded-lg shadow-xl p-10 text-center border-l-8 border-cyan-500">
+            <p class="text-2xl italic text-slate-800 mb-6">
+                "<%= locals.site ? site.founderQuote : 'Recovery is an active process.' %>"
+            </p>
+            <div class="font-bold text-slate-900">Alex Mercer</div>
+            <div class="text-cyan-600 text-sm uppercase tracking-wide">Founder</div>
+        </blockquote>
+    </div>
+</div>
