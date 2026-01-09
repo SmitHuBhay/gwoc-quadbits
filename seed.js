@@ -18,9 +18,9 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
 
     // Services
     await Service.insertMany([
-        { title: 'Ice Plunge', price: 30, duration: '30 min', imageURL: 'https://images.unsplash.com/photo-1596464716127-f9a8f2275660?w=600', category: 'Ice Bath' },
-        { title: 'Steam Detox', price: 45, duration: '45 min', imageURL: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600', category: 'Steam' },
-        { title: 'Full Recovery Combo', price: 85, duration: '90 min', imageURL: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=600', category: 'Combo' }
+        { title: 'Ice Plunge', price: 3000, duration: '30 min', imageURL: 'https://images.unsplash.com/photo-1596464716127-f9a8f2275660?w=600', category: 'Ice Bath' },
+        { title: 'Steam Detox', price: 4500, duration: '45 min', imageURL: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600', category: 'Steam' },
+        { title: 'Full Recovery Combo', price: 8500, duration: '90 min', imageURL: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=600', category: 'Combo' }
     ]);
     
     // Fake Feedback
