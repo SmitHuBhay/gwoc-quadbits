@@ -10,7 +10,7 @@
                     <option value="" disabled selected>Choose a service...</option>
                     <% services.forEach(s => { %>
                         <option value="<%= s._id %>" <%= selectedService == s._id ? 'selected' : '' %>>
-                            <%= s.title %> - $<%= s.discountPrice || s.price %> 
+                            <%= s.title %> - ₹<%= s.discountPrice || s.price %> 
                             <%= s.discountPercent > 0 ? '(Sale)' : '' %>
                         </option>
                     <% }) %>

@@ -31,11 +31,11 @@
                             <div>
                                 <% if(service.discountPercent > 0) { %>
                                     <div class="flex items-center gap-2">
-                                        <span class="text-2xl font-bold text-red-600">$<%= service.discountPrice %></span>
-                                        <span class="text-sm text-slate-400 line-through">$<%= service.price %></span>
+                                        <span class="text-2xl font-bold text-red-600">₹<%= service.discountPrice %></span>
+                                        <span class="text-sm text-slate-400 line-through">₹<%= service.price %></span>
                                     </div>
                                 <% } else { %>
-                                    <span class="text-2xl font-bold text-slate-900">$<%= service.price %></span>
+                                    <span class="text-2xl font-bold text-slate-900">₹<%= service.price %></span>
                                 <% } %>
                                 <span class="text-sm text-slate-500 block"><%= service.duration %> session</span>
                             </div>
