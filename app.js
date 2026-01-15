@@ -6,11 +6,10 @@ const methodOverride = require('method-override');//put and delete
 const session = require('express-session');//cookies
 const expressLayouts = require('express-ejs-layouts'); 
 
-
 connectDB(); // Connect Database
 
 // Middleware
-app.use(expressLayouts);          
+app.use(expressLayouts);      
 app.set('layout', 'layout');      
 
 app.set('view engine', 'ejs');// seting ejs as html file
@@ -35,4 +34,4 @@ app.use('/admin', require('./routes/adminRoutes'));
 app.use('/user', require('./routes/userRoutes'));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ₹{PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
