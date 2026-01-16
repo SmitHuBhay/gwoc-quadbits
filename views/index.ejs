@@ -1,46 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Chill Thrive – Test UI</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f7ff;
-      padding: 40px;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      max-width: 400px;
-      border-radius: 8px;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-    }
-    button {
-      background: #0a3d62;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
+<div class="relative bg-cyan-900 h-[85vh] flex items-center justify-center text-center px-4">
+    <div class="absolute inset-0 bg-black opacity-40"></div>
+    <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50">
+    
+    <div class="relative z-10 max-w-4xl px-4">
+        <h1 class="text-5xl md:text-7xl text-white font-bold mb-6 drop-shadow-xl leading-tight">
+            <%= locals.site ? site.heroTitle : 'Reconnect with your resilience.' %>
+        </h1>
+        <p class="text-xl md:text-2xl text-blue-100 mb-10 font-light max-w-2xl mx-auto">
+            <%= locals.site ? site.heroSubtitle : 'Premium Ice Baths, Steam Therapies, and Recovery solutions.' %>
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/book" class="bg-white text-cyan-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-cyan-50 transition shadow-lg">Start Recovery</a>
+            <a href="/services" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-cyan-900 transition">View Therapies</a>
+        </div>
+    </div>
+</div>
 
-  <h1>❄️ Chill Thrive – Booking Test</h1>
+<section class="py-20 max-w-7xl mx-auto px-4">
+    <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-cyan-900">Popular Protocols</h2>
+        <div class="w-24 h-1 bg-cyan-500 mx-auto mt-4 rounded-full"></div>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+        <% services.forEach(service => { %>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition duration-300 relative border border-slate-100">
+                
+                <% if(service.discountPercent > 0) { %>
+                    <div class="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg z-20 shadow-md">
+                        <%= service.discountPercent %>% OFF
+                    </div>
+                <% } %>
 
-  <form action="/api/bookings" method="POST">
-    <input name="service" placeholder="Service (Ice Bath)" required />
-    <input name="name" placeholder="Your Name" required />
-    <input name="phone" placeholder="Phone" required />
-    <input name="email" placeholder="Email" required />
-    <input name="date" type="date" required />
-    <input name="timeSlot" type="time" required />
-    <input name="paymentMode" placeholder="Cash / UPI" required />
-    <button type="submit">Book Now</button>
-  </form>
-
-</body>
-</html>
+                <div class="h-56 overflow-hidden relative">
+                    <img src="<%= service.imageURL %>" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-slate-800"><%= service.title %></h3>
+                    <p class="text-slate-500 mb-6 text-sm flex items-center">
+                        <span class="bg-slate-100 px-2 py-1 rounded text-xs uppercase font-bold mr-2"><%= service.category %></span>
+                        <%= service.duration %>
+                    </p>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <% if(service.discountPercent > 0) { %>
+                                <span class="text-xs text-slate-400 line-through block">Was ₹<%= service.price %></span>
+                                <div class="text-2xl font-bold text-red-600">₹<%= service.discountPrice %></div>
+                            <% } else { %>
+                                <div class="text-2xl font-bold text-cyan-700">₹<%= service.price %></div>
+                            <% } %>
+                        </div>
+                        <a href="/book?service=<%= service._id %>" class="px-6 py-2 bg-slate-900 text-white font-bold rounded-lg hover:bg-slate-700 transition transform active:scale-95">Book</a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Thrive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Lato', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-cyan-800 tracking-wider">CHILL THRIVE</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="/services" class="hover:text-cyan-600">Services</a>
+                <a href="/awareness" class="hover:text-cyan-600">Blog</a>
+                <a href="/feedback" class="hover:text-cyan-600">Feedback</a>
+                <a href="/founder" class="hover:text-cyan-600">Founder</a>
+                <% if(user) { %>
+                    <a href="/user/dashboard" class="text-cyan-700 font-bold">Hi, <%= user.name %></a>
+                    <a href="/user/logout" class="text-sm text-slate-400">Logout</a>
+                <% } else { %>
+                    <a href="/user/login" class="text-slate-600">Login</a>
+                <% } %>
+                <a href="/book" class="px-5 py-2 bg-cyan-700 text-white rounded-full hover:bg-cyan-800 transition transform hover:scale-105">Book Now</a>
+            </div>
+        </div>
+    </nav>
+    <main class="flex-grow">
+        <%- body %>
+    </main>
+    <footer class="bg-slate-900 text-white py-8 text-center mt-12">
+        <p>&copy; 2024 Chill Thrive Wellness.</p>
+    </footer>
+</body>
+</html>

@@ -1,24 +1,38 @@
-const router = require("express").Router();
-const bcrypt = require("bcryptjs");
-const Admin = require("../models/Admin");
-const auth = require("../middleware/auth");
+const express = require('express');
+const router = express.Router();
+const adminController = require('../controllers/adminController');
 
-// Login
-router.post("/login", async (req, res) => {
-  const admin = await Admin.findOne({ username: req.body.username });
-  if (!admin) return res.status(400).json({ message: "Invalid credentials" });
 
-  const match = await bcrypt.compare(req.body.password, admin.password);
-  if (!match) return res.status(400).json({ message: "Invalid credentials" });
+//routes 
+router.get('/login', adminController.getLogin);
+router.post('/login', adminController.postLogin);
+router.get('/logout', adminController.logout);
 
-  req.session.admin = true;
-  res.json({ message: "Login successful" });
-});
+//check krne ke liye admin logged in hai ya nahi
+const auth = (req, res, next) => {
+    if (req.session.admin) {
+        return next();
+    }
+    res.redirect('/admin/login');
+};
+//after authentication
+//dashboard admin ka main page
+router.get('/', auth, adminController.getDashboard);//yaha palahe check krege auth me aur fir get dashboard se dashboard render hoga
 
-// Logout
-router.post("/logout", (req, res) => {
-  req.session.destroy();
-  res.json({ message: "Logged out" });
-});
+//service routes , service manipulation ke liye
+router.post('/service', auth, adminController.createService);
+router.put('/service/:id', auth, adminController.updateService);
+router.delete('/service/:id', auth, adminController.deleteService);
+
+//booking routes , booking manipulation ke liye
+router.put('/booking/:id', auth, adminController.updateBookingStatus);
+
+//content routes , content manipulation ke liye (blog update krneko)
+router.post('/content', auth, adminController.createContent);
+
+// Blog Management
+router.get('/content/edit/:id', auth, adminController.getEditContent);//iske baad niche wali window ayegi uspe asli update hoga
+router.post('/content/edit/:id', auth, adminController.updateContent);//yaha dalenge ya update krege
+router.post('/content/delete/:id', auth, adminController.deleteContent);//ye delete krne ke liye
 
 module.exports = router;

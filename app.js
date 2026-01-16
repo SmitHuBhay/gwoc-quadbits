@@ -1,40 +1,37 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const session = require("express-session");
-const path = require("path");
-
-dotenv.config();
+require('dotenv').config();
+const express = require('express');//backend
 const app = express();
+const connectDB = require('./config/db');
+const methodOverride = require('method-override');//put and delete
+const session = require('express-session');//cookies
+const expressLayouts = require('express-ejs-layouts'); 
 
-app.use(express.json());
+connectDB(); // Connect Database
+
+// Middleware
+app.use(expressLayouts);      
+app.set('layout', 'layout');      
+
+app.set('view engine', 'ejs');// seting ejs as html file
+app.use(express.static('public'));//for all assets in public folder
 app.use(express.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
-app.use(express.urlencoded({ extended: true }));
-
-app.use(
-  session({
+app.use(express.json());//parse json (data from database is in json)
+app.use(methodOverride('_method'));
+app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
-  })
-);
-app.get("/", (req, res) => {
-  res.render("index");
+}));
+app.use((req, res, next) => {
+    res.locals.admin = req.session.admin || null;
+    res.locals.user = req.session.user || null;
+    next();
 });
 
+// Routes
+app.use('/', require('./routes/indexRoutes'));
+app.use('/admin', require('./routes/adminRoutes'));
+app.use('/user', require('./routes/userRoutes'));
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
-
-app.use("/api/admin", require("./routes/adminRoutes"));
-app.use("/api/services", require("./routes/serviceRoutes"));
-app.use("/api/bookings", require("./routes/bookingRoutes"));
-
-app.listen(process.env.PORT, () =>
-  console.log(`Server running on port ${process.env.PORT}`)
-);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
