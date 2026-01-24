@@ -1,6 +1,7 @@
 //ye sare models hai means database me is format me saved thi info type shit
 const Service = require('../models/Service');
 const Content = require('../models/Content');
+const DaySettings = require('../models/Day');
 const Booking = require('../models/Booking');
 const Feedback = require('../models/Feedback');
 //for homepage
